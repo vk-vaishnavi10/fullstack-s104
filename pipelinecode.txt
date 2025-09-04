@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent any  // Force it to run on master node
 
     tools {
         jdk 'JDK_HOME'
@@ -7,17 +7,17 @@ pipeline {
     }
 
     environment {
-        TOMCAT_URL = 'http://51.21.158.152:9090/manager/text'
+        TOMCAT_URL = 'http://13.61.125.111:9090/manager/text'
         TOMCAT_USER = 'admin'
         TOMCAT_PASS = 'admin'
 
-        MAIN_REPO = 'https://github.com/satyavathiborra/fullstack-s201.git'
+        MAIN_REPO = 'https://github.com/vk-vaishnavi10/fullstack-s104.git'
 
-        BACKEND_DIR = 'crud_back'
-        FRONTEND_DIR = 'crud_front'
+        BACKEND_DIR = 'crud_be'
+        FRONTEND_DIR = 'crud_fe'
 
-        BACKEND_WAR = 'crud_back/target/springapp1.war'
-        FRONTEND_WAR = 'crud_front/frontapp1.war'
+        BACKEND_WAR = 'crud_be/target/springapp1.war'
+        FRONTEND_WAR = 'crud_fe/frontapp1.war'
     }
 
     stages {
