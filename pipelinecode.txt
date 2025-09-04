@@ -7,17 +7,17 @@ pipeline {
     }
 
     environment {
-        TOMCAT_URL = 'http://13.61.125.111:9090/manager/text'
+        TOMCAT_URL  = 'http://13.61.125.111:9090/manager/text'
         TOMCAT_USER = 'admin'
         TOMCAT_PASS = 'admin'
 
-        MAIN_REPO = 'https://github.com/vk-vaishnavi10/fullstack-s104.git'
+        MAIN_REPO   = 'https://github.com/vk-vaishnavi10/fullstack-s104.git'
 
-        BACKEND_DIR = 'crud_be'
-        FRONTEND_DIR = 'crud_fe'
+        BACKEND_DIR   = 'crud_be'
+        FRONTEND_DIR  = 'crud_fe'
 
-        BACKEND_WAR = 'crud_be/target/springapp1.war'
-        FRONTEND_WAR = 'crud_fe/target/frontapp1.war'
+        BACKEND_WAR   = 'crud_be/target/springapp1.war'
+        FRONTEND_WAR  = 'crud_fe/target/frontapp1.war'
     }
 
     stages {
@@ -45,10 +45,12 @@ pipeline {
                 dir("${env.FRONTEND_DIR}") {
                     script {
                         def warDir = "target/war_content"
-                        sh "rm -rf ${warDir}"
-                        sh "mkdir -p ${warDir}/META-INF ${warDir}/WEB-INF"
-                        sh "cp -r dist/* ${warDir}/"
-                        sh "jar -cvf ${env.FRONTEND_WAR} -C ${warDir} ."
+                        sh """
+                            rm -rf ${warDir}
+                            mkdir -p ${warDir}/META-INF ${warDir}/WEB-INF
+                            cp -r dist/* ${warDir}/
+                        """
+                        sh "jar -cvf ${FRONTEND_WAR} -C ${warDir} ."
                     }
                 }
             }
