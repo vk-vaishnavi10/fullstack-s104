@@ -50,7 +50,8 @@ pipeline {
                             mkdir -p ${warDir}/META-INF ${warDir}/WEB-INF
                             cp -r dist/* ${warDir}/
                         """
-                        sh "jar -cvf ${FRONTEND_WAR} -C ${warDir} ."
+                        sh  "jar -cvf target/frontapp1.war -C ${warDir} ."
+
                     }
                 }
             }
@@ -86,6 +87,7 @@ pipeline {
         }
     }
 }
+
 
 
 
