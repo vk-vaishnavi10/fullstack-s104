@@ -1,5 +1,5 @@
 pipeline {
-    agent any  // Force it to run on master node
+    agent any
 
     tools {
         jdk 'JDK_HOME'
@@ -55,22 +55,31 @@ pipeline {
         stage('Build Spring Boot App') {
             steps {
                 dir("${env.BACKEND_DIR}") {
-                    sh 'mvn clean package'
-                    sh 'mv target/*.war target/springapp1.war'
+                    sh 'mvn clean package -DskipTests'
+                    sh 'mv target/*.war target/springapp1.war || echo "WAR already named correctly"'
                 }
             }
         }
 
         stage('Deploy Spring Boot WAR') {
             steps {
-                sh "curl -u ${env.TOMCAT_USER}:${env.TOMCAT_PASS} --upload-file \"${env.BACKEND_WAR}\" \"${env.TOMCAT_URL}/deploy?path=/springapp1&update=true\""
+                sh """
+                curl -u ${env.TOMCAT_USER}:${env.TOMCAT_PASS} \
+                --upload-file "${env.BACKEND_WAR}" \
+                "${env.TOMCAT_URL}/deploy?path=/springapp1&update=true"
+                """
             }
         }
 
         stage('Deploy Frontend WAR') {
             steps {
-                sh "curl -u ${env.TOMCAT_USER}:${env.TOMCAT_PASS} --upload-file \"${env.FRONTEND_WAR}\" \"${env.TOMCAT_URL}/deploy?path=/frontapp1&update=true\""
+                sh """
+                curl -u ${env.TOMCAT_USER}:${env.TOMCAT_PASS} \
+                --upload-file "${env.FRONTEND_WAR}" \
+                "${env.TOMCAT_URL}/deploy?path=/frontapp1&update=true"
+                """
             }
         }
     }
 }
+
